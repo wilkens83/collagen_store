@@ -73,7 +73,7 @@ export default function ProductDetail() {
     name: product.name,
     description: product.short_description,
     image: product.images,
-    brand: { "@type": "Brand", name: "LUXE SKIN" },
+    brand: { "@type": "Brand", name: "P-Nice" },
     offers: {
       "@type": "Offer",
       priceCurrency: "USD",

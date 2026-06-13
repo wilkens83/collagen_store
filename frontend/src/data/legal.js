@@ -1,15 +1,15 @@
 // Editable starter legal content. Replace bracketed PLACEHOLDERS with your details.
 const EFFECTIVE = "Effective date: [INSERT DATE]";
-const BIZ = "[LUXE SKIN LLC]";
-const ADDRESS = "[123 Botanical Way, Suite 100, Your City, ST 00000]";
-const EMAIL = "[support@luxeskin-placeholder.com]";
+const BIZ = "P-Nice";
+const ADDRESS = "3008 Woodbridge Dr SE, Grand Rapids, MI 49512";
+const EMAIL = "support@p-nice.com";
 
 export const LEGAL = {
   terms: {
     slug: "terms",
     title: "Terms of Service",
     intro:
-      "These Terms of Service govern your use of the LUXE SKIN website and the purchase of products from us. By placing an order you agree to these terms.",
+      "These Terms of Service govern your use of the P-Nice website and the purchase of products from us. By placing an order you agree to these terms.",
     sections: [
       {
         h: "1. Who We Are",
@@ -41,7 +41,7 @@ export const LEGAL = {
       },
       {
         h: "8. Changes & Governing Law",
-        p: `We may update these terms from time to time. These terms are governed by the laws of [YOUR STATE/COUNTRY]. ${EFFECTIVE}`,
+        p: `We may update these terms from time to time. These terms are governed by the laws of the State of Michigan, USA. ${EFFECTIVE}`,
       },
     ],
   },

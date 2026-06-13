@@ -12,7 +12,7 @@ const VALUES = [
 export default function About() {
   return (
     <div data-testid="about-page">
-      <Seo title="About" description="The LUXE SKIN story — clean, botanical night care, formulated with restraint." />
+      <Seo title="About" description="The P-Nice story — clean, botanical night care, formulated with restraint." />
 
       <section className="bg-forest text-cream py-20 text-center">
         <div className="container-luxe">
@@ -23,7 +23,7 @@ export default function About() {
 
       <section className="container-luxe py-16 max-w-3xl mx-auto text-charcoal/90 leading-relaxed space-y-6 text-lg">
         <p>
-          LUXE SKIN began with a simple idea: that a skincare routine should feel like a quiet,
+          P-Nice began with a simple idea: that a skincare routine should feel like a quiet,
           grounding ritual — not a chore or a chase after the next trend. We set out to make a small
           collection of clean, botanical formulas you'd genuinely look forward to using each night.
         </p>

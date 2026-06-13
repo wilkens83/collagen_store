@@ -41,7 +41,7 @@ export default function Header() {
             className="font-display text-2xl sm:text-3xl tracking-widest2 text-forest"
             data-testid="logo-link"
           >
-            LUXE&nbsp;SKIN
+            P-NICE
           </Link>
 
           <nav className="hidden lg:flex items-center gap-9">

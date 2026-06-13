@@ -47,10 +47,10 @@ export default function Footer() {
 
         <div className="grid grid-cols-2 md:grid-cols-5 gap-10 border-t border-cream/10 pt-12">
           <div className="col-span-2">
-            <div className="font-display text-2xl tracking-widest2 mb-4">LUXE&nbsp;SKIN</div>
+            <div className="font-display text-2xl tracking-widest2 mb-4">P-NICE</div>
             <p className="text-sage text-sm leading-relaxed max-w-xs">
-              Clean, botanical night care — thoughtfully formulated to help your skin look and
-              feel its best. Cruelty-free. Made in USA.
+              Clean, botanical night care from P-Nice — thoughtfully formulated to help your skin
+              look and feel its best. Cruelty-free. Made in USA.
             </p>
             <div className="flex gap-4 mt-6 text-sage">
               <a href="#" aria-label="Instagram" className="hover:text-gold transition-colors"><Instagram size={20} strokeWidth={1.5} /></a>
@@ -91,13 +91,12 @@ export default function Footer() {
           </p>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 pt-3">
             <span>
-              {/* PLACEHOLDER — replace with your registered business details */}
-              LUXE SKIN LLC · 123 Botanical Way, Suite 100, Your City, ST 00000 ·{" "}
-              <a href="mailto:support@luxeskin-placeholder.com" className="hover:text-gold">
-                support@luxeskin-placeholder.com
+              P-Nice · 3008 Woodbridge Dr SE, Grand Rapids, MI 49512 ·{" "}
+              <a href="mailto:support@p-nice.com" className="hover:text-gold">
+                support@p-nice.com
               </a>
             </span>
-            <span>© {new Date().getFullYear()} LUXE SKIN. All rights reserved.</span>
+            <span>© {new Date().getFullYear()} P-Nice. All rights reserved.</span>
           </div>
         </div>
       </div>

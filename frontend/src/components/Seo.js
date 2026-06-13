@@ -2,7 +2,7 @@ import React from "react";
 import { Helmet } from "react-helmet-async";
 
 export default function Seo({ title, description, jsonLd, image }) {
-  const fullTitle = title ? `${title} · LUXE SKIN` : "LUXE SKIN — Clean, Botanical Night Care";
+  const fullTitle = title ? `${title} · P-Nice` : "P-Nice — Clean, Botanical Night Care";
   const desc =
     description ||
     "Calm, botanical, clean skincare. Two thoughtfully formulated night-care essentials. Secure checkout by Stripe.";

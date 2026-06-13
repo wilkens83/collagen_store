@@ -27,7 +27,7 @@ export default function Contact() {
 
   return (
     <div data-testid="contact-page">
-      <Seo title="Contact" description="Get in touch with LUXE SKIN customer support." />
+      <Seo title="Contact" description="Get in touch with P-Nice customer support." />
       <section className="bg-cream-muted py-16 text-center">
         <p className="eyebrow text-gold mb-3">We're Here</p>
         <h1 className="h-section">Contact Us</h1>
@@ -42,13 +42,13 @@ export default function Contact() {
           <div className="space-y-5 text-forest">
             <div className="flex items-center gap-4">
               <Mail className="text-gold" strokeWidth={1.5} />
-              {/* PLACEHOLDER support email */}
-              <a href="mailto:support@luxeskin-placeholder.com" className="hover:text-gold">support@luxeskin-placeholder.com</a>
+              {/* Business support email */}
+              <a href="mailto:support@p-nice.com" className="hover:text-gold">support@p-nice.com</a>
             </div>
             <div className="flex items-start gap-4">
               <MapPin className="text-gold mt-1" strokeWidth={1.5} />
-              {/* PLACEHOLDER mailing address */}
-              <span>LUXE SKIN LLC<br />123 Botanical Way, Suite 100<br />Your City, ST 00000, USA</span>
+              {/* Business mailing address */}
+              <span>P-Nice<br />3008 Woodbridge Dr SE<br />Grand Rapids, MI 49512, USA</span>
             </div>
             <div className="flex items-center gap-4">
               <Clock className="text-gold" strokeWidth={1.5} />

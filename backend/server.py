@@ -46,8 +46,8 @@ db = client[DB_NAME]
 STRIPE_API_KEY = os.environ.get("STRIPE_API_KEY", "")
 RESEND_API_KEY = os.environ.get("RESEND_API_KEY", "")
 SENDER_EMAIL = os.environ.get("SENDER_EMAIL", "onboarding@resend.dev")
-SUPPORT_EMAIL = os.environ.get("SUPPORT_EMAIL", "support@luxeskin-placeholder.com")
-STATEMENT_DESCRIPTOR = os.environ.get("STORE_STATEMENT_DESCRIPTOR", "LUXE SKIN")
+SUPPORT_EMAIL = os.environ.get("SUPPORT_EMAIL", "support@p-nice.com")
+STATEMENT_DESCRIPTOR = os.environ.get("STORE_STATEMENT_DESCRIPTOR", "P-Nice")
 
 # Fast lookup of products by id (server is source of truth for price)
 PRODUCT_INDEX: Dict[str, dict] = {p["id"]: p for p in PRODUCTS}
@@ -87,7 +87,7 @@ class NewsletterIn(BaseModel):
 # ---------------------------------------------------------------------------
 # App / router
 # ---------------------------------------------------------------------------
-app = FastAPI(title="LUXE SKIN API")
+app = FastAPI(title="P-Nice API")
 api = APIRouter(prefix="/api")
 
 
@@ -100,7 +100,7 @@ def now_iso() -> str:
 # ---------------------------------------------------------------------------
 @api.get("/")
 async def root():
-    return {"status": "ok", "store": "LUXE SKIN"}
+    return {"status": "ok", "store": "P-Nice"}
 
 
 @api.get("/products")
@@ -277,7 +277,7 @@ async def _finalize_order(session_id: str):
     if claim.modified_count == 0:
         return
 
-    order_number = f"LX-{datetime.now(timezone.utc).strftime('%Y%m%d')}-{str(ObjectId())[-6:].upper()}"
+    order_number = f"PN-{datetime.now(timezone.utc).strftime('%Y%m%d')}-{str(ObjectId())[-6:].upper()}"
     order = {
         "order_number": order_number,
         "session_id": session_id,
@@ -315,7 +315,7 @@ async def _send_order_email(to_email: str, order_number: str, order: dict):
         html = f"""
         <div style="font-family:Georgia,serif;background:#F5F1E8;padding:32px">
           <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:12px;overflow:hidden">
-            <div style="background:#1F3D2E;color:#F5F1E8;padding:28px 32px;text-align:center;letter-spacing:4px">LUXE SKIN</div>
+            <div style="background:#1F3D2E;color:#F5F1E8;padding:28px 32px;text-align:center;letter-spacing:4px">P-NICE</div>
             <div style="padding:32px">
               <h2 style="color:#1F3D2E;font-weight:normal">Thank you for your order</h2>
               <p style="color:#2B2B2B">Order <strong>{order_number}</strong> is confirmed and being prepared with care. A free sample is included in every order.</p>
@@ -334,7 +334,7 @@ async def _send_order_email(to_email: str, order_number: str, order: dict):
         params = {
             "from": SENDER_EMAIL,
             "to": [to_email],
-            "subject": f"Your LUXE SKIN order {order_number} is confirmed",
+            "subject": f"Your P-Nice order {order_number} is confirmed",
             "html": html,
         }
         await asyncio.to_thread(resend.Emails.send, params)

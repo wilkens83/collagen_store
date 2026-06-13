@@ -21,10 +21,10 @@ export default function Shop() {
 
   return (
     <div data-testid="shop-page">
-      <Seo title="Shop" description="Browse the full LUXE SKIN collection — clean, botanical night care." />
+      <Seo title="Shop" description="Browse the full P-Nice collection — clean, botanical night care." />
       <section className="bg-cream-muted py-16 text-center">
         <p className="eyebrow text-gold mb-3">The Collection</p>
-        <h1 className="h-section">Shop LUXE SKIN</h1>
+        <h1 className="h-section">Shop P-Nice</h1>
         <p className="text-charcoal/70 max-w-xl mx-auto mt-4 px-6">
           A small, considered range. Each formula is a cosmetic ritual designed to help your skin
           look its best.

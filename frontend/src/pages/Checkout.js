@@ -94,7 +94,7 @@ export default function Checkout() {
             <div className="bg-cream-muted rounded-xl p-4 flex items-start gap-3 text-sm text-charcoal/80">
               <ShieldCheck className="text-gold mt-0.5 shrink-0" strokeWidth={1.5} />
               <span>
-                Card details are entered securely on Stripe's hosted checkout. We never see or store
+              Card details are entered securely on Stripe's hosted checkout. We never see or store
                 your card number. Shipping address is collected at the next step.
               </span>
             </div>

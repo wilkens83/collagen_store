@@ -48,11 +48,11 @@ export default function Home() {
     <div data-testid="home-page">
       <Seo
         title="Clean, Botanical Night Care"
-        description="LUXE SKIN — two thoughtfully formulated night-care essentials. Clean, cruelty-free, made in USA. Secure checkout by Stripe."
+        description="P-Nice — two thoughtfully formulated night-care essentials. Clean, cruelty-free, made in USA. Secure checkout by Stripe."
         jsonLd={{
           "@context": "https://schema.org",
           "@type": "Store",
-          name: "LUXE SKIN",
+          name: "P-Nice",
           description: "Clean, botanical night care.",
         }}
       />
@@ -78,7 +78,7 @@ export default function Home() {
             <div className="overflow-hidden rounded-2xl shadow-lift aspect-[4/5] bg-cream-muted">
               <img
                 src={hero?.images?.[0] || "https://images.unsplash.com/photo-1680443285773-ef42672d00da?q=85&w=1000"}
-                alt="LUXE SKIN serum on a stone pedestal with botanicals"
+                alt="P-Nice serum on a stone pedestal with botanicals"
                 className="w-full h-full object-cover"
               />
             </div>

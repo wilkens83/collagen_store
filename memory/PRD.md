@@ -23,11 +23,18 @@ Stripe Checkout (hosted) · Resend email · default prices (Serum $68 / Cream $5
 - SEO meta, Open Graph, JSON-LD (Product + FAQPage). WCAG-conscious, mobile-first.
 
 ## What's Been Implemented (2026-06-13)
-- ✅ Full storefront (all pages above) with natural-luxe design system (cream/forest/sage/gold).
+- ✅ Rebranded LUXE SKIN → **P-Nice** across all frontend + backend, email template, SEO, manifest, JSON-LD.
+- ✅ Business details filled: P-Nice · 3008 Woodbridge Dr SE, Grand Rapids, MI 49512 · support@p-nice.com · statement descriptor "P-Nice" (footer, Contact, legal pages, backend .env + email).
+- ✅ Stored publishable key in frontend/.env (REACT_APP_STRIPE_PUBLISHABLE_KEY). Backend STRIPE_API_KEY still on test key (sk_test_emergent) — awaiting live SECRET key.
+- ✅ Full storefront (all pages) with natural-luxe design system (cream/forest/sage/gold).
 - ✅ Backend APIs: products, config, checkout/session (server-side price), checkout/status (idempotent finalize), webhook/stripe (signature verified), contact, newsletter (consent required).
-- ✅ Stripe hosted checkout flow verified (redirects to checkout.stripe.com); orders + payment_transactions collections.
-- ✅ Compliance copy, disclaimers, consent on newsletter, PLACEHOLDERS for price/address/email/descriptor.
+- ✅ Compliance copy, disclaimers, consent on newsletter. Order prefix PN-.
 - ✅ Tested: 16 backend pytest + 18 frontend Playwright flows — 100% pass.
+
+## OUTSTANDING (blockers for live payments/email)
+- ❗ Need Stripe **SECRET** key (sk_live_… or rk_live_…) — the key provided was the publishable key, which cannot create charges.
+- ❗ Need RESEND_API_KEY for live order-confirmation emails (currently skipped gracefully).
+- ❔ Final prices not provided — keeping defaults $68 (Serum) / $54 (Cream).
 
 ## Prioritized Backlog
 - P1: Add own live Stripe keys (replace STRIPE_API_KEY) + set RESEND_API_KEY for live emails.

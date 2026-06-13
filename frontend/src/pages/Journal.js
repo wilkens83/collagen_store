@@ -26,7 +26,7 @@ const POSTS = [
 export default function Journal() {
   return (
     <div data-testid="journal-page">
-      <Seo title="Journal" description="Thoughtful skincare notes from LUXE SKIN." />
+      <Seo title="Journal" description="Thoughtful skincare notes from P-Nice." />
       <section className="bg-cream-muted py-16 text-center">
         <p className="eyebrow text-gold mb-3">The Journal</p>
         <h1 className="h-section">Notes on Slow Beauty</h1>
