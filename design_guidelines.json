@@ -1,0 +1,132 @@
+{
+  "theme_and_archetype": {
+    "domain": "Premium Skincare E-commerce",
+    "theme": "Light",
+    "archetype": "1 (Organic & Earthy)",
+    "mood": "Calm, botanical, premium, editorial, slow and elegant."
+  },
+  "colors": {
+    "background": {
+      "default": "#F5F1E8",
+      "muted": "#F2EBDD"
+    },
+    "primary": {
+      "default": "#1F3D2E",
+      "dark": "#16352A",
+      "foreground": "#F5F1E8"
+    },
+    "secondary": {
+      "default": "#7A8F6A",
+      "foreground": "#FFFFFF"
+    },
+    "accent": {
+      "gold": "#C8A24B"
+    },
+    "border": {
+      "default": "#9C9B91"
+    },
+    "text": {
+      "primary": "#2B2B2B",
+      "muted": "#9C9B91"
+    }
+  },
+  "typography": {
+    "fonts": {
+      "headings": "Playfair Display, serif",
+      "body": "Lato, sans-serif",
+      "accent": "Playfair Display, serif (italic)"
+    },
+    "hierarchy": {
+      "h1": "text-4xl sm:text-5xl lg:text-6xl tracking-widest uppercase font-light text-[#1F3D2E]",
+      "h2": "text-2xl sm:text-3xl lg:text-4xl tracking-wider uppercase font-light text-[#1F3D2E]",
+      "h3": "text-xl sm:text-2xl tracking-wide font-normal text-[#1F3D2E]",
+      "body": "text-base leading-relaxed text-[#2B2B2B]",
+      "small": "text-sm tracking-[0.2em] uppercase text-[#9C9B91]",
+      "quote": "text-xl sm:text-2xl italic font-serif text-[#7A8F6A]"
+    }
+  },
+  "layout_and_spacing": {
+    "philosophy": "Generous whitespace, slow elegant feel. Use p-12 to p-32 for section padding.",
+    "grid": "Bento-style organic grids. Use overlapping images and text to create depth. Asymmetrical layouts for editorial look.",
+    "surfaces": "Minimal glassmorphism. Prefer flat solid surfaces matching the background with extremely soft, diffuse shadows (e.g., shadow-[0_10px_40px_rgba(31,61,46,0.05)]) to mimic natural light.",
+    "borders": "Thin soft taupe (#9C9B91) dividers for sections, often paired with thin-line botanical flourishes."
+  },
+  "components_strategy": {
+    "buttons": {
+      "primary": "bg-[#1F3D2E] text-[#F5F1E8] hover:bg-[#16352A] transition-colors duration-300 rounded-lg px-8 py-3 tracking-widest uppercase text-sm",
+      "secondary": "border border-[#C8A24B] text-[#1F3D2E] hover:bg-[#C8A24B] hover:text-[#F5F1E8] transition-colors duration-300 rounded-lg px-8 py-3 tracking-widest uppercase text-sm"
+    },
+    "cards": {
+      "product": "bg-transparent group cursor-pointer",
+      "image_wrapper": "overflow-hidden rounded-xl bg-[#F2EBDD] relative mb-4",
+      "image_hover": "group-hover:scale-105 transition-transform duration-700 ease-out"
+    },
+    "header": {
+      "style": "sticky top-0 z-50 bg-[#F5F1E8]/90 backdrop-blur-md border-b border-[#9C9B91]/30",
+      "announcement": "bg-[#1F3D2E] text-[#F5F1E8] text-xs py-2 text-center tracking-widest uppercase"
+    },
+    "footer": {
+      "style": "bg-[#1F3D2E] text-[#F5F1E8] py-20",
+      "links": "text-[#7A8F6A] hover:text-[#C8A24B] transition-colors text-sm"
+    },
+    "icons": {
+      "library": "lucide-react",
+      "style": "stroke-[#C8A24B] stroke-[1.5]",
+      "usage": "Thin gold botanical line icons (leaf, droplet, flower, sun) for benefit badges and commitments."
+    }
+  },
+  "media_and_assets": {
+    "image_urls": [
+      {
+        "category": "hero",
+        "url": "https://images.unsplash.com/photo-1555820585-c5ae44394b79?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NTN8MHwxfHNlYXJjaHwzfHx3b21hbiUyMGdsb3dpbmclMjBza2luJTIwbmF0dXJhbHxlbnwwfHx8fDE3ODEzMjg1MDZ8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Woman portrait with glowing natural skin, used for lifestyle/hero sections to establish the premium aesthetic."
+      },
+      {
+        "category": "hero_alternate",
+        "url": "https://images.unsplash.com/photo-1581182800629-7d90925ad072?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NTN8MHwxfHNlYXJjaHwxfHx3b21hbiUyMGdsb3dpbmclMjBza2luJTIwbmF0dXJhbHxlbnwwfHx8fDE3ODEzMjg1MDZ8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Woman in white tank top, clean natural aesthetic for 'About' or 'Commitments' section."
+      },
+      {
+        "category": "product_1",
+        "url": "https://images.unsplash.com/photo-1680443285773-ef42672d00da?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NTN8MHwxfHNlYXJjaHwzfHxza2luY2FyZSUyMGJvdHRsZSUyMHN0b25lfGVufDB8fHx8MTc4MTMyODUwNnww&ixlib=rb-4.1.0&q=85",
+        "description": "Serum bottle on a stone pedestal. Represents Product 1 (e.g., Luminous Serum)."
+      },
+      {
+        "category": "product_2",
+        "url": "https://images.unsplash.com/photo-1763503836825-97f5450d155a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2OTF8MHwxfHNlYXJjaHwxfHxza2luY2FyZSUyMGNyZWFtJTIwamFyfGVufDB8fHx8MTc4MTMyODUwNnww&ixlib=rb-4.1.0&q=85",
+        "description": "White cream in an open jar on a rock. Represents Product 2 (e.g., Renewal Cream)."
+      },
+      {
+        "category": "story_botanical",
+        "url": "https://images.unsplash.com/photo-1780599994472-8065fc345e3a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NTN8MHwxfHNlYXJjaHw0fHxza2luY2FyZSUyMGJvdHRsZSUyMHN0b25lfGVufDB8fHx8MTc4MTMyODUwNnww&ixlib=rb-4.1.0&q=85",
+        "description": "Smooth grey and pink stones stacked. Used for story bands or decorative imagery."
+      }
+    ]
+  },
+  "motion_and_interactions": {
+    "scrolling": "lenis for smooth scrolling, giving weight to the premium feel.",
+    "page_transitions": "Subtle fade and slow slide-up on entrance. framer-motion is recommended.",
+    "hover_effects": "Image zoom inside overflow-hidden wrappers (scale-105 duration-700). Text colors transition smoothly. No aggressive or bouncy animations.",
+    "cart_drawer": "Smooth right-to-left slide in with an overlay of bg-[#1F3D2E]/20."
+  },
+  "testing": {
+    "attributes": "All interactive elements MUST include data-testid attributes (e.g., data-testid='add-to-cart-button', data-testid='cart-drawer-close')."
+  },
+  "pages_instructions": {
+    "home": "Hero with product_1 on pedestal, thin gold benefit badges overlay. 'The Collection' section featuring product_1 and product_2. Brand-story band with story_botanical image. 'Our Commitments' row with lucide icons in gold. Testimonial carousel. Footer with newsletter.",
+    "shop": "Grid with category filter. Product cards with image hover effects.",
+    "product_detail": "2-column layout on desktop. Left: Image gallery. Right: Title, rating, price, variants, quantity, Add to Cart & Buy Now buttons. Below: Tabbed sections (Benefits, Ingredients, How to Use), FAQ, Cross-sell.",
+    "cart_and_checkout": "Cart drawer accessible from header. Slide-out cart to have order summary and checkout button. Checkout pages should be cleanly integrated (Stripe hosted simulation).",
+    "legal_and_contact": "Text-heavy but highly readable. Max-width container, generous line-height, beautiful typography."
+  },
+  "instructions_to_main_agent": [
+    "Strictly adhere to the color hex codes provided.",
+    "Use Playfair Display for headings and Lato for body text.",
+    "Ensure all buttons use the primary/secondary configurations specified in components_strategy.",
+    "Always apply 'data-testid' to interactive elements.",
+    "Do NOT use placeholder images. Rely exclusively on the 'media_and_assets.image_urls' provided.",
+    "For the e-commerce layout, maintain a mobile-first responsive design but ensure desktop feels like a high-end editorial spread.",
+    "If any icons are needed, use lucide-react with the styling: stroke-[#C8A24B] and strokeWidth={1.5}."
+  ]
+}
