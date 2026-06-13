@@ -38,10 +38,10 @@ export default function Header() {
 
           <Link
             to="/"
-            className="font-display text-2xl sm:text-3xl tracking-widest2 text-forest"
+            className="flex items-center"
             data-testid="logo-link"
           >
-            P-NICE
+            <img src="/logo-pnice.png" alt="P-Nice" className="h-11 sm:h-14 w-auto" />
           </Link>
 
           <nav className="hidden lg:flex items-center gap-9">

@@ -47,7 +47,9 @@ export default function Footer() {
 
         <div className="grid grid-cols-2 md:grid-cols-5 gap-10 border-t border-cream/10 pt-12">
           <div className="col-span-2">
-            <div className="font-display text-2xl tracking-widest2 mb-4">P-NICE</div>
+            <div className="inline-flex bg-cream rounded-xl px-4 py-3 mb-5 shadow-soft">
+              <img src="/logo-pnice.png" alt="P-Nice" className="h-12 w-auto" />
+            </div>
             <p className="text-sage text-sm leading-relaxed max-w-xs">
               Clean, botanical night care from P-Nice — thoughtfully formulated to help your skin
               look and feel its best. Cruelty-free. Made in USA.
