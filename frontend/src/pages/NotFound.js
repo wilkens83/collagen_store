@@ -4,7 +4,7 @@ import Seo from "../components/Seo";
 
 export default function NotFound() {
   return (
-    <div className="container-luxe py-32 text-center" data-testid="not-found-page">
+    <div className="container-pnice py-32 text-center" data-testid="not-found-page">
       <Seo title="Not Found" />
       <p className="eyebrow text-gold mb-4">404</p>
       <h1 className="h-section mb-6">This page drifted away</h1>

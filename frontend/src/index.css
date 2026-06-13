@@ -47,7 +47,7 @@ h1, h2, h3, h4, .font-serif, .font-display {
   .eyebrow {
     @apply text-xs tracking-widest2 uppercase text-stone;
   }
-  .container-luxe {
+  .container-pnice {
     @apply max-w-7xl mx-auto px-5 sm:px-8 lg:px-12;
   }
   .h-section {

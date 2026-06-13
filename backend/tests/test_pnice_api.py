@@ -31,12 +31,9 @@ class TestProducts:
             assert k in p0, f"missing {k}"
         assert "not been evaluated" in data["disclaimer"]
 
-    def test_product_detail(self, client):
-        r = client.get(f"{API}/products/luxe-skin-shop")
-        # slug 'luxe-skin-shop' may not exist; per request use slugs from products
-        # Original test asked for /api/products/luxe-skin-shop - but real slugs are different.
-        # Test both slugs explicitly.
-        assert r.status_code in (200, 404)
+    def test_product_detail_unknown_slug(self, client):
+        r = client.get(f"{API}/products/does-not-exist")
+        assert r.status_code == 404
 
     def test_product_detail_valid_slug(self, client):
         for slug in ["retinol-peptide-face-serum", "sleep-night-recovery-cream"]:

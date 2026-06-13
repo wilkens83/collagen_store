@@ -40,7 +40,7 @@ export default function Checkout() {
 
   if (items.length === 0) {
     return (
-      <div className="container-luxe py-32 text-center" data-testid="checkout-empty">
+      <div className="container-pnice py-32 text-center" data-testid="checkout-empty">
         <Seo title="Checkout" />
         <p className="text-stone mb-6">There's nothing to check out yet.</p>
         <Link to="/shop" className="btn-primary">Explore the Collection</Link>
@@ -49,7 +49,7 @@ export default function Checkout() {
   }
 
   return (
-    <div className="container-luxe py-16 min-h-[60vh]" data-testid="checkout-page">
+    <div className="container-pnice py-16 min-h-[60vh]" data-testid="checkout-page">
       <Seo title="Checkout" />
       <h1 className="h-section mb-10 text-center">Secure Checkout</h1>
 

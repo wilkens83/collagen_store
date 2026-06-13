@@ -4,7 +4,6 @@ import { Check, Plus, Minus, ShoppingBag, Zap } from "lucide-react";
 import { api, formatPrice } from "../lib/api";
 import { useCart } from "../context/CartContext";
 import Seo from "../components/Seo";
-import StarRating from "../components/StarRating";
 import BenefitIcon from "../components/BenefitIcon";
 import BotanicalDivider from "../components/BotanicalDivider";
 import Disclaimer from "../components/Disclaimer";
@@ -49,7 +48,7 @@ export default function ProductDetail() {
   }, [slug, navigate]);
 
   if (!product) {
-    return <div className="container-luxe py-32 text-center text-stone" data-testid="product-loading">Loading…</div>;
+    return <div className="container-pnice py-32 text-center text-stone" data-testid="product-loading">Loading…</div>;
   }
 
   const buyNow = () => {
@@ -92,7 +91,7 @@ export default function ProductDetail() {
       />
 
       {/* TOP: gallery + buy box */}
-      <section className="container-luxe py-14 grid lg:grid-cols-2 gap-12">
+      <section className="container-pnice py-14 grid lg:grid-cols-2 gap-12">
         <div>
           <div className="overflow-hidden rounded-2xl bg-cream-muted aspect-square shadow-soft">
             <img src={product.images[activeImg]} alt={product.name} className="w-full h-full object-cover" data-testid="product-main-image" />
@@ -116,7 +115,6 @@ export default function ProductDetail() {
         <div>
           <p className="eyebrow text-gold mb-3">{product.category}</p>
           <h1 className="font-serif text-3xl lg:text-4xl text-forest leading-tight">{product.name}</h1>
-          <div className="mt-3"><StarRating rating={product.rating} count={product.review_count} /></div>
           <p className="font-serif text-2xl text-charcoal mt-4">{formatPrice(product.price)} <span className="text-sm text-stone">USD</span></p>
           <p className="text-charcoal/80 leading-relaxed mt-4">{product.short_description}</p>
 
@@ -178,7 +176,7 @@ export default function ProductDetail() {
       </section>
 
       {/* DETAILS */}
-      <div className="container-luxe max-w-4xl mx-auto pb-10">
+      <div className="container-pnice max-w-4xl mx-auto pb-10">
         <Section title="Benefits" id="benefits">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {product.benefit_tiles.map((t) => (
@@ -258,7 +256,7 @@ export default function ProductDetail() {
       {/* RECOMMENDATIONS */}
       {related.length > 0 && (
         <section className="bg-cream-muted py-16">
-          <div className="container-luxe">
+          <div className="container-pnice">
             <BotanicalDivider className="mb-10" />
             <h2 className="h-section text-center mb-12">You May Also Like</h2>
             <div className="grid sm:grid-cols-2 gap-10 max-w-3xl mx-auto">

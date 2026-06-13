@@ -33,7 +33,7 @@ ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 load_dotenv(os.path.join(ROOT_DIR, ".env"))
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("luxe_skin")
+logger = logging.getLogger("pnice")
 
 # ---------------------------------------------------------------------------
 # Database
@@ -178,7 +178,7 @@ async def create_checkout_session(req: CheckoutRequest, request: Request):
     cancel_url = f"{origin}/cart"
 
     metadata = {
-        "source": "luxe_skin_web",
+        "source": "pnice_web",
         "item_count": str(sum(li["quantity"] for li in line_items)),
         "subtotal": f"{subtotal:.2f}",
         "shipping": f"{shipping:.2f}",

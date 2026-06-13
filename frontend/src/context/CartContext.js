@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 const CartContext = createContext(null);
-const STORAGE_KEY = "luxe_skin_cart_v1";
+const STORAGE_KEY = "pnice_cart_v1";
 export const FREE_SHIPPING_THRESHOLD = 50;
 
 export function CartProvider({ children }) {

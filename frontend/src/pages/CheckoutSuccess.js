@@ -64,7 +64,7 @@ export default function CheckoutSuccess() {
   }, [sessionId, clear]);
 
   return (
-    <div className="container-luxe py-20 min-h-[60vh] flex items-center justify-center" data-testid="checkout-success-page">
+    <div className="container-pnice py-20 min-h-[60vh] flex items-center justify-center" data-testid="checkout-success-page">
       <Seo title="Order Confirmation" />
       <div className="max-w-lg w-full text-center">
         {state === "polling" && (

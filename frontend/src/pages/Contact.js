@@ -33,7 +33,7 @@ export default function Contact() {
         <h1 className="h-section">Contact Us</h1>
       </section>
 
-      <section className="container-luxe py-16 grid lg:grid-cols-2 gap-16 max-w-5xl mx-auto">
+      <section className="container-pnice py-16 grid lg:grid-cols-2 gap-16 max-w-5xl mx-auto">
         <div className="space-y-8">
           <p className="text-charcoal/80 leading-relaxed">
             Questions about your order, our formulas, or a return? Reach out — we typically reply

@@ -15,13 +15,13 @@ export default function About() {
       <Seo title="About" description="The P-Nice story — clean, botanical night care, formulated with restraint." />
 
       <section className="bg-forest text-cream py-20 text-center">
-        <div className="container-luxe">
+        <div className="container-pnice">
           <p className="eyebrow text-gold mb-4">Our Story</p>
           <h1 className="font-serif text-4xl lg:text-5xl tracking-wide uppercase font-light">Beauty, the slow way</h1>
         </div>
       </section>
 
-      <section className="container-luxe py-16 max-w-3xl mx-auto text-charcoal/90 leading-relaxed space-y-6 text-lg">
+      <section className="container-pnice py-16 max-w-3xl mx-auto text-charcoal/90 leading-relaxed space-y-6 text-lg">
         <p>
           P-Nice began with a simple idea: that a skincare routine should feel like a quiet,
           grounding ritual — not a chore or a chase after the next trend. We set out to make a small
@@ -40,7 +40,7 @@ export default function About() {
 
       <BotanicalDivider className="py-6" />
 
-      <section className="container-luxe py-16">
+      <section className="container-pnice py-16">
         <div className="grid md:grid-cols-3 gap-12">
           {VALUES.map((v) => (
             <div key={v.title} className="text-center">

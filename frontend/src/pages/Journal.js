@@ -32,7 +32,7 @@ export default function Journal() {
         <h1 className="h-section">Notes on Slow Beauty</h1>
       </section>
       <BotanicalDivider className="py-10" />
-      <section className="container-luxe pb-20 grid md:grid-cols-3 gap-10">
+      <section className="container-pnice pb-20 grid md:grid-cols-3 gap-10">
         {POSTS.map((post) => (
           <article key={post.title} className="group cursor-pointer" data-testid="journal-post">
             <div className="overflow-hidden rounded-xl aspect-[4/3] mb-5 bg-cream-muted shadow-soft">

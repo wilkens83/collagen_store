@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { formatPrice } from "../lib/api";
-import StarRating from "./StarRating";
 
 export default function ProductCard({ product }) {
   const { addItem } = useCart();
@@ -23,7 +22,6 @@ export default function ProductCard({ product }) {
         </div>
       </Link>
       <div className="text-center px-1">
-        <StarRating rating={product.rating} className="justify-center mb-2" />
         <Link to={`/product/${product.slug}`}>
           <h3 className="font-serif text-xl text-forest hover:text-gold transition-colors">
             {product.name}

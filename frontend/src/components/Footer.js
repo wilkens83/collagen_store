@@ -42,7 +42,7 @@ const COLUMNS = [
 export default function Footer() {
   return (
     <footer className="bg-forest text-cream pt-16 pb-10" data-testid="site-footer">
-      <div className="container-luxe">
+      <div className="container-pnice">
         <Newsletter />
 
         <div className="grid grid-cols-2 md:grid-cols-5 gap-10 border-t border-cream/10 pt-12">

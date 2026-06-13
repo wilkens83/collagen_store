@@ -21,8 +21,6 @@ PRODUCTS = [
         "price": 68.00,
         "currency": "usd",
         "size": "1 fl oz / 30 ml",
-        "rating": 4.8,
-        "review_count": 124,
         "hero_headline": "Refine Your Texture While You Rest.",
         "subheadline": (
             "A blend of smoothing Retinol and firming Hexapeptide-11, designed to help "
@@ -98,8 +96,6 @@ PRODUCTS = [
         "price": 54.00,
         "currency": "usd",
         "size": "2 oz / 56 g",
-        "rating": 4.9,
-        "review_count": 186,
         "hero_headline": "Wake Up Looking Refreshed.",
         "subheadline": (
             "A rich night cream with Hyaluronic Acid, Collagen, and skin-conditioning "

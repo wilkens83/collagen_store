@@ -12,7 +12,7 @@ export default function CartPage() {
   const total = subtotal + shipping;
 
   return (
-    <div className="container-luxe py-16 min-h-[60vh]" data-testid="cart-page">
+    <div className="container-pnice py-16 min-h-[60vh]" data-testid="cart-page">
       <Seo title="Cart" />
       <h1 className="h-section mb-10">Your Cart</h1>
 

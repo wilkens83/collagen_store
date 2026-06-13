@@ -16,7 +16,7 @@ export default function LegalPage({ docKey }) {
         <h1 className="h-section">{doc.title}</h1>
       </section>
 
-      <article className="container-luxe py-14 max-w-3xl mx-auto">
+      <article className="container-pnice py-14 max-w-3xl mx-auto">
         <p className="text-charcoal/80 leading-relaxed text-lg mb-10">{doc.intro}</p>
         <div className="space-y-9">
           {doc.sections.map((s) => (

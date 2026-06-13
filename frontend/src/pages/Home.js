@@ -59,7 +59,7 @@ export default function Home() {
 
       {/* HERO */}
       <section className="bg-cream">
-        <div className="container-luxe grid lg:grid-cols-2 gap-12 items-center py-16 lg:py-24">
+        <div className="container-pnice grid lg:grid-cols-2 gap-12 items-center py-16 lg:py-24">
           <div className="animate-fadeUp">
             <p className="eyebrow text-gold mb-5">Clean · Botanical · Night Care</p>
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl tracking-wide uppercase font-light text-forest leading-[1.05]">
@@ -97,7 +97,7 @@ export default function Home() {
       <BotanicalDivider className="py-10" />
 
       {/* THE COLLECTION */}
-      <section className="container-luxe py-8 lg:py-12" data-testid="collection-section">
+      <section className="container-pnice py-8 lg:py-12" data-testid="collection-section">
         <div className="text-center mb-12">
           <p className="eyebrow text-gold mb-3">The Collection</p>
           <h2 className="h-section">Two Rituals. One Glow.</h2>
@@ -111,7 +111,7 @@ export default function Home() {
 
       {/* BRAND STORY BAND */}
       <section className="bg-forest text-cream my-16">
-        <div className="container-luxe grid lg:grid-cols-2 gap-12 items-center py-16">
+        <div className="container-pnice grid lg:grid-cols-2 gap-12 items-center py-16">
           <div className="overflow-hidden rounded-2xl aspect-[5/4] order-2 lg:order-1">
             <img
               src="https://images.unsplash.com/photo-1581182800629-7d90925ad072?q=85&w=1000"
@@ -139,7 +139,7 @@ export default function Home() {
       </section>
 
       {/* COMMITMENTS */}
-      <section className="container-luxe py-8" data-testid="commitments-section">
+      <section className="container-pnice py-8" data-testid="commitments-section">
         <div className="text-center mb-12">
           <p className="eyebrow text-gold mb-3">Our Commitments</p>
           <h2 className="h-section">What We Stand For</h2>
@@ -159,7 +159,7 @@ export default function Home() {
       <BotanicalDivider className="py-12" />
 
       {/* TESTIMONIALS */}
-      <section className="container-luxe py-8 text-center max-w-3xl mx-auto" data-testid="testimonials-section">
+      <section className="container-pnice py-8 text-center max-w-3xl mx-auto" data-testid="testimonials-section">
         <p className="eyebrow text-gold mb-6">In Their Words</p>
         <blockquote className="font-serif italic text-2xl sm:text-3xl text-sage leading-relaxed min-h-[160px]">
           “{TESTIMONIALS[active].quote}”
@@ -179,7 +179,7 @@ export default function Home() {
 
       {/* TRUST ROW */}
       <section className="bg-cream-muted mt-16" data-testid="trust-row">
-        <div className="container-luxe grid grid-cols-2 lg:grid-cols-4 gap-8 py-12">
+        <div className="container-pnice grid grid-cols-2 lg:grid-cols-4 gap-8 py-12">
           {TRUST.map((t) => (
             <div key={t.label} className="flex flex-col items-center text-center gap-3">
               <BenefitIcon name={t.icon} size={26} />

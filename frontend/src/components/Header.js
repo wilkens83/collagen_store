@@ -26,7 +26,7 @@ export default function Header() {
       </div>
 
       <header className="sticky top-0 z-40 bg-cream/90 backdrop-blur-md border-b border-stone/30">
-        <div className="container-luxe flex items-center justify-between h-20">
+        <div className="container-pnice flex items-center justify-between h-20">
           <button
             className="lg:hidden text-forest"
             onClick={() => setMobileOpen((o) => !o)}

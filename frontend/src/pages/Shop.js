@@ -33,7 +33,7 @@ export default function Shop() {
 
       <BotanicalDivider className="py-10" />
 
-      <section className="container-luxe pb-20">
+      <section className="container-pnice pb-20">
         <div className="flex flex-wrap justify-center gap-3 mb-12" data-testid="shop-filters">
           {FILTERS.map((f) => (
             <button
