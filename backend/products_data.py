@@ -1,8 +1,10 @@
-"""Static product catalog for LUXE SKIN.
+"""Static product catalog for P-Nice.
 
 Prices are sensible defaults (USD) and are EASILY EDITABLE here.
 All copy follows cosmetic (non-medical / non-supplement) positioning for
-Stripe restricted-business and FTC compliance.
+Stripe restricted-business and FTC compliance. Ingredient lists, sizes and
+cautions are sourced from the manufacturer product sheets and reframed for
+topical, external-use only positioning.
 """
 
 COSMETIC_DISCLAIMER = (
@@ -32,11 +34,12 @@ PRODUCTS = [
             "overnight, with bisabolol to support comfort."
         ),
         "description": (
-            "An overnight facial serum that pairs smoothing Retinol with firming "
-            "Hexapeptide-11 in a featherlight, fast-absorbing texture. Phospholipids help "
-            "carry the formula gently into the look of the skin, while soothing bisabolol "
-            "is included to keep the experience comfortable. Designed to help your skin "
-            "look smoother, more even and more defined by morning, without a greasy finish."
+            "Crafted to refine and refresh the skin's appearance overnight. Retinol, known "
+            "for its smoothing properties, works together with Hexapeptide-11 to support the "
+            "look of firmness and texture, for a complexion that appears more even and polished "
+            "over time. Soothing bisabolol and nourishing phospholipids help support a soft, "
+            "balanced feel, while the silky, fast-absorbing texture sinks in without a greasy "
+            "finish. A topical cosmetic for external use only."
         ),
         "benefits": [
             "Supports the look of firmer, more defined facial contours.",
@@ -44,28 +47,37 @@ PRODUCTS = [
             "Lightweight texture sinks in fast and won't transfer to your pillowcase.",
         ],
         "benefit_tiles": [
-            {"icon": "sparkles", "label": "Smoother-looking texture"},
-            {"icon": "droplet", "label": "Lightweight, fast-absorbing"},
-            {"icon": "leaf", "label": "Soothing bisabolol"},
-            {"icon": "moon", "label": "Designed for nightly use"},
+            {"icon": "sparkles", "label": "Smoother Texture", "note": "Retinol helps refine the look of fine lines and uneven texture."},
+            {"icon": "flower", "label": "Visibly Firmer", "note": "Hexapeptide-11 supports the appearance of firmer skin."},
+            {"icon": "leaf", "label": "Soothing Comfort", "note": "Bisabolol and phospholipids keep the formula gentle."},
+            {"icon": "moon", "label": "Overnight Ritual", "note": "A featherlight serum designed for nightly use."},
         ],
         "key_ingredients": [
-            {"name": "Phospholipids", "icon": "droplet", "note": "Help carry the formula gently into the look of skin."},
             {"name": "Retinol", "icon": "sparkles", "note": "Helps smooth the look of texture and fine lines."},
             {"name": "Hexapeptide-11", "icon": "flower", "note": "Supports the appearance of firmer skin."},
+            {"name": "Phospholipids", "icon": "droplet", "note": "Help carry the formula gently into the look of skin."},
             {"name": "Bisabolol", "icon": "leaf", "note": "A soothing botanical-derived comfort agent."},
         ],
-        "how_to_use": [
-            "After cleansing, apply 3–4 drops to face and neck at night.",
-            "Follow with your favorite moisturizer.",
-            "Apply sunscreen the following morning.",
+        "full_ingredients": (
+            "Aqua (Water), Caprylic/Capric Triglyceride, Phospholipids, Retinol, Aluminum "
+            "Starch Octenylsuccinate, 1,2-Hexanediol, Butylene Glycol, Propanediol, "
+            "Hexapeptide-11, Ammonium Acryloyldimethyltaurate/Carboxyethyl Acrylate "
+            "Crosspolymer, Sodium Polyacrylate, Bisabolol."
+        ),
+        "usage_steps": [
+            {"icon": "droplet", "title": "Apply", "text": "After cleansing, apply 3–4 drops to face and neck at night."},
+            {"icon": "sparkles", "title": "Massage", "text": "Gently press and smooth until fully absorbed."},
+            {"icon": "moon", "title": "Moisturize", "text": "Follow with your favorite night moisturizer."},
+            {"icon": "sun", "title": "Protect", "text": "Apply sunscreen the following morning."},
         ],
-        "specs": [
-            {"label": "Size", "value": "1 fl oz / 30 ml"},
-            {"label": "Texture", "value": "Lightweight serum"},
-            {"label": "Use", "value": "PM / nightly"},
-            {"label": "Skin types", "value": "All, including sensitive (patch test first)"},
-            {"label": "Format", "value": "Topical cosmetic, external use only"},
+        "spec_panel": [
+            {"icon": "droplet", "label": "Skin Type", "value": "All types, incl. sensitive"},
+            {"icon": "sparkles", "label": "Targets", "value": "Texture, fine lines, firmness"},
+            {"icon": "leaf", "label": "Texture", "value": "Lightweight, silky serum"},
+            {"icon": "moon", "label": "Use", "value": "PM / nightly"},
+            {"icon": "droplet", "label": "Size", "value": "1 fl oz / 30 ml"},
+            {"icon": "pin", "label": "Origin", "value": "Made in USA"},
+            {"icon": "shield", "label": "Format", "value": "Topical cosmetic, external use only"},
         ],
         "faq": [
             {
@@ -77,6 +89,11 @@ PRODUCTS = [
                 "a": "Nightly for best results. If you're new to retinol, start every other night to let your skin adjust.",
             },
         ],
+        "warnings": (
+            "If pregnant or nursing, consult your physician before use. For external use only. "
+            "Avoid contact with eyes. If irritation occurs, discontinue use. Shake well before "
+            "use. Retinol may increase skin's sensitivity to sunlight — use sunscreen daily."
+        ),
         "cta_text": "Reveal Smoother Skin",
         "variants": ["1 fl oz / 30 ml"],
         "badges": ["Clean Ingredients", "Cruelty-Free", "Made in USA"],
@@ -107,12 +124,13 @@ PRODUCTS = [
             "smooth, supple skin."
         ),
         "description": (
-            "A cushiony night cream that wraps skin in lasting overnight moisture. "
-            "Hyaluronic Acid and hydrolyzed Collagen help skin look plump and feel "
-            "hydrated, while skin-conditioning melatonin and botanical antioxidants support "
-            "a healthy-looking complexion. Avocado and lavender oils soften skin and turn "
-            "your evening routine into a calming ritual. A topical cosmetic for external "
-            "use only — never ingested."
+            "A luxurious, cushiony night cream designed to complement your evening routine "
+            "with a hydrating, skin-nourishing formula. Hyaluronic Acid — nature's “moisture "
+            "miracle” — helps keep skin supple and hydrated through the night, while hydrolyzed "
+            "Collagen supports a smooth, elastic-looking complexion. Avocado and Lavender oils "
+            "soothe and soften, and skin-conditioning melatonin rounds out a calming ritual. "
+            "Gentle enough for all skin types, for men and women alike. A topical cosmetic for "
+            "external use only — never ingested."
         ),
         "benefits": [
             "Hyaluronic Acid helps the skin hold onto moisture so it looks plump and feels hydrated by morning.",
@@ -120,30 +138,35 @@ PRODUCTS = [
             "Avocado and lavender oils soften skin and make your evening routine a calming ritual.",
         ],
         "benefit_tiles": [
-            {"icon": "droplet", "label": "Deeply hydrating"},
-            {"icon": "flower", "label": "Plump, supple look"},
-            {"icon": "leaf", "label": "Soothing botanical oils"},
-            {"icon": "moon", "label": "Calming nightly ritual"},
+            {"icon": "droplet", "label": "Deep Hydration", "note": "Hyaluronic Acid helps skin stay supple and hydrated overnight."},
+            {"icon": "sparkles", "label": "Supple Look", "note": "Hydrolyzed collagen supports a smooth, elastic appearance."},
+            {"icon": "leaf", "label": "Botanical Oils", "note": "Avocado and lavender oils soften and soothe the skin."},
+            {"icon": "moon", "label": "Calming Ritual", "note": "Skin-conditioning melatonin for a restful evening routine."},
         ],
         "key_ingredients": [
-            {"name": "Purified Water", "icon": "droplet", "note": "A clean, hydrating base."},
+            {"name": "Hyaluronic Acid", "icon": "droplet", "note": "Helps skin hold onto moisture for a plump look."},
+            {"name": "Collagen", "icon": "sparkles", "note": "Hydrolyzed collagen for a smooth, supple look."},
             {"name": "Melatonin", "icon": "moon", "note": "A skin-conditioning ingredient (topical, not ingested)."},
-            {"name": "Aloe Vera Extract", "icon": "leaf", "note": "Helps soothe the feel of skin."},
-            {"name": "Collagen", "icon": "sparkles", "note": "Hydrolyzed collagen for a supple look."},
-            {"name": "Hyaluronic Acid", "icon": "droplet", "note": "Helps skin hold onto moisture."},
-            {"name": "Avocado Oil", "icon": "leaf", "note": "Softens and conditions skin."},
-            {"name": "Lavender Oil", "icon": "flower", "note": "A calming botanical scent."},
+            {"name": "Avocado & Lavender Oil", "icon": "leaf", "note": "Soften, soothe and condition the skin."},
         ],
-        "how_to_use": [
-            "Apply a small amount (about ¼ tsp) to face and neck 45–60 minutes before bedtime, as a topical cosmetic.",
-            "Smooth gently until absorbed. For external use only.",
+        "full_ingredients": (
+            "Purified Water, Melatonin, Aloe Vera Extract, Collagen, Hyaluronic Acid, "
+            "Avocado Oil, Rheosol, Lavender Oil, Phenonip, Rosemary Leaf Extract."
+        ),
+        "usage_steps": [
+            {"icon": "droplet", "title": "Warm", "text": "Take about ¼ tsp and warm gently between fingertips."},
+            {"icon": "flower", "title": "Apply", "text": "Smooth over face and neck 45–60 minutes before bed."},
+            {"icon": "leaf", "title": "Massage", "text": "Massage in upward motions until absorbed. External use only."},
+            {"icon": "moon", "title": "Rest", "text": "Increase to ½ tsp if you wake repeatedly during the night."},
         ],
-        "specs": [
-            {"label": "Size", "value": "2 oz / 56 g"},
-            {"label": "Texture", "value": "Rich cream"},
-            {"label": "Use", "value": "PM / nightly"},
-            {"label": "Skin types", "value": "All (patch test first)"},
-            {"label": "Format", "value": "Topical cosmetic, external use only — not a supplement"},
+        "spec_panel": [
+            {"icon": "droplet", "label": "Skin Type", "value": "All types — men & women"},
+            {"icon": "sparkles", "label": "Targets", "value": "Hydration, plumpness, comfort"},
+            {"icon": "flower", "label": "Texture", "value": "Rich, cushiony cream"},
+            {"icon": "moon", "label": "Use", "value": "PM, 45–60 min before bed"},
+            {"icon": "droplet", "label": "Size", "value": "2 oz / 56 g"},
+            {"icon": "pin", "label": "Origin", "value": "Made in USA"},
+            {"icon": "shield", "label": "Format", "value": "Topical cosmetic — not ingested"},
         ],
         "faq": [
             {
@@ -155,6 +178,13 @@ PRODUCTS = [
                 "a": "No. Sleep+ is a topical cosmetic cream for external use only — it is not ingested and is not a dietary supplement.",
             },
         ],
+        "warnings": (
+            "For external use only. Topical cosmetic — not a dietary supplement and not for "
+            "ingestion. If irritation develops, discontinue use. If product enters the eye, "
+            "flush thoroughly with water. Pregnant or nursing mothers and those with a medical "
+            "condition should consult a physician before use. Keep out of reach of children. "
+            "Store in a cool, dry place; do not use if the safety seal is damaged or missing."
+        ),
         "cta_text": "Experience Deep Repair",
         "variants": ["2 oz / 56 g"],
         "badges": ["Clean Ingredients", "Cruelty-Free", "Made in USA"],
