@@ -5,3 +5,14 @@ credentials.json
 *.pem
 *.key
 .credentials
+
+# Dependencies
+node_modules/
+package-lock.json
+
+# Python build artifacts
+__pycache__/
+*.pyc
+
+# Frontend build output
+frontend/build/
