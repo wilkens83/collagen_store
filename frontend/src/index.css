@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: #f5f1e8;
+  color: #2b2b2b;
+  font-family: "Lato", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .font-serif, .font-display {
+  font-family: "Playfair Display", Georgia, serif;
+}
+
+::selection {
+  background: #c8a24b;
+  color: #f5f1e8;
+}
+
+/* Slim, elegant scrollbar */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #f2ebdd; }
+::-webkit-scrollbar-thumb { background: #9c9b91; border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: #7a8f6a; }
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 bg-forest text-cream hover:bg-forest-dark transition-colors duration-300 rounded-lg px-8 py-3 tracking-widest2 uppercase text-xs font-bold disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 border border-gold text-forest hover:bg-gold hover:text-cream transition-colors duration-300 rounded-lg px-8 py-3 tracking-widest2 uppercase text-xs font-bold;
+  }
+  .eyebrow {
+    @apply text-xs tracking-widest2 uppercase text-stone;
+  }
+  .container-luxe {
+    @apply max-w-7xl mx-auto px-5 sm:px-8 lg:px-12;
+  }
+  .h-section {
+    @apply font-serif text-3xl sm:text-4xl lg:text-5xl tracking-wider uppercase font-light text-forest;
+  }
+}
