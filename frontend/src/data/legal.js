@@ -1,5 +1,5 @@
 // Editable starter legal content. Replace bracketed PLACEHOLDERS with your details.
-const EFFECTIVE = "Effective date: [INSERT DATE]";
+const EFFECTIVE = "Effective date: June 2026";
 const BIZ = "P-Nice";
 const ADDRESS = "3008 Woodbridge Dr SE, Grand Rapids, MI 49512";
 const EMAIL = "support@p-nice.com";
