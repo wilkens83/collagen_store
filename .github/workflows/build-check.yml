@@ -13,12 +13,17 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - name: Install (npm ci, like Vercel)
-        working-directory: frontend
-        run: npm ci
-      - name: Build
-        working-directory: frontend
-        run: npm run build
+      - name: Versions / cwd (match Vercel)
+        run: |
+          pwd
+          node --version
+          npm --version
+          ls -la
+          ls -la frontend | head
+      - name: Install exactly like Vercel (from repo root)
+        run: npm ci --prefix frontend
+      - name: Build exactly like Vercel
+        run: npm --prefix frontend run build
         env:
           CI: "false"
 
