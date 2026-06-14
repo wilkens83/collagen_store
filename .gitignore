@@ -8,7 +8,6 @@ credentials.json
 
 # Dependencies
 node_modules/
-package-lock.json
 
 # Python build artifacts
 __pycache__/
