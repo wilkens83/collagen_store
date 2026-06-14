@@ -113,23 +113,23 @@ export const LEGAL = {
     slug: "shipping-policy",
     title: "Shipping & Fulfillment Policy",
     intro:
-      "Here's everything about how and when your order ships.",
+      "Here's everything about how and when your order ships. Our products are made to order and shipped directly to you from our U.S.-based fulfillment partner.",
     sections: [
       {
         h: "1. Processing Time",
-        p: "Orders are processed within [1–2] business days. You'll receive a confirmation email when your order is placed and a tracking email when it ships.",
+        p: "Orders are prepared and dispatched from our U.S. fulfillment center, typically within 1–3 business days. You'll receive a confirmation email when your order is placed and a tracking email once it ships.",
       },
       {
         h: "2. Shipping Costs",
-        p: "Free standard shipping on orders over $50 USD. A flat rate of [$5.95] applies to orders under $50. Costs are shown in USD before payment.",
+        p: "Free standard shipping on orders over $50 USD. A flat rate of $5.95 applies to orders under $50. All costs are shown in USD before payment.",
       },
       {
         h: "3. Carriers & Delivery Estimates",
-        p: "We ship via [USPS / UPS / FedEx]. Standard delivery typically takes [3–7] business days after dispatch, depending on destination.",
+        p: "Domestic orders ship with USPS — Ground Advantage for standard delivery (typically 2–4 business days after dispatch) and USPS Priority for express (typically 1–3 business days). Delivery times are estimates and can vary by destination.",
       },
       {
         h: "4. Shipping Regions",
-        p: "We currently ship within [the United States]. [International shipping availability and rates: INSERT].",
+        p: "We ship across the contiguous United States. Unfortunately, shipping to Alaska and Hawaii is not available at this time. Where international shipping is offered, orders ship from the U.S. via FedEx (typically 3–5 business days) under Delivery Duties Unpaid (DDU) terms — any customs duties, taxes, or import fees are the responsibility of the recipient.",
       },
       {
         h: "5. Lost or Delayed Packages",
