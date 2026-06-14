@@ -1,0 +1,41 @@
+name: build-check
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install (npm ci, like Vercel)
+        working-directory: frontend
+        run: npm ci
+      - name: Build
+        working-directory: frontend
+        run: npm run build
+        env:
+          CI: "false"
+
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install deps (root requirements, like the Vercel function)
+        run: pip install -r requirements.txt
+      - name: Import the FastAPI app via the Vercel entry
+        env:
+          MONGO_URL: mongodb://localhost:27017
+          DB_NAME: ci_test
+          STRIPE_API_KEY: sk_test_dummy
+        run: |
+          python -c "import sys; sys.path.insert(0, 'backend'); import server; print('backend import OK:', server.app.title)"
+          python -c "import importlib.util, sys; sys.path.insert(0,'backend'); spec=importlib.util.spec_from_file_location('vi','api/index.py'); m=importlib.util.module_from_spec(spec); spec.loader.exec_module(m); print('vercel entry OK:', type(m.app).__name__)"
