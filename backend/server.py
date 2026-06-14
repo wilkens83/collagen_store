@@ -33,7 +33,11 @@ logger = logging.getLogger("pnice")
 # ---------------------------------------------------------------------------
 # Database
 # ---------------------------------------------------------------------------
-MONGO_URL = os.environ["MONGO_URL"]
+# Prefer an explicit MONGO_URL (e.g. local .env); fall back to MONGODB_URI, which
+# the Vercel ↔ MongoDB Atlas integration injects and keeps in sync automatically.
+MONGO_URL = os.environ.get("MONGO_URL") or os.environ.get("MONGODB_URI")
+if not MONGO_URL:
+    raise RuntimeError("Set MONGO_URL or MONGODB_URI to the MongoDB connection string")
 DB_NAME = os.environ["DB_NAME"]
 client = AsyncIOMotorClient(MONGO_URL)
 db = client[DB_NAME]
