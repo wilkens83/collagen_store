@@ -1,9 +1,13 @@
-"""LUXE SKIN backend API tests."""
+"""P-Nice backend API tests (integration — requires a running server).
+
+Set REACT_APP_BACKEND_URL to the base URL of the API under test; defaults to
+the local dev server.
+"""
 import os
 import requests
 import pytest
 
-BASE_URL = os.environ.get("REACT_APP_BACKEND_URL", "https://9ba68ffa-50db-414d-b575-2ce500317f41.preview.emergentagent.com").rstrip("/")
+BASE_URL = os.environ.get("REACT_APP_BACKEND_URL", "http://localhost:8000").rstrip("/")
 API = f"{BASE_URL}/api"
 
 

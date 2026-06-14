@@ -16,3 +16,6 @@ __pycache__/
 
 # Frontend build output
 frontend/build/
+
+# Vercel
+.vercel

@@ -1,10 +1,11 @@
-"""LUXE SKIN — FastAPI backend.
+"""P-Nice — FastAPI backend.
 
 Handles: product catalog, Stripe Checkout (hosted) sessions, secure server-side
 pricing, payment status polling, Stripe webhook, order creation + confirmation
 email, contact form and newsletter signup.
 
-No raw card data is ever collected or stored — Stripe handles all payment data.
+Payments use the official Stripe Python SDK (Checkout Sessions). No raw card
+data is ever collected or stored — Stripe handles all payment data.
 """
 
 import os
@@ -13,19 +14,13 @@ import logging
 from datetime import datetime, timezone
 from typing import Optional, List, Dict, Annotated
 
+import stripe
 from dotenv import load_dotenv
 from fastapi import FastAPI, APIRouter, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field, BeforeValidator, EmailStr
 from motor.motor_asyncio import AsyncIOMotorClient
 from bson import ObjectId
-
-from emergentintegrations.payments.stripe.checkout import (
-    StripeCheckout,
-    CheckoutSessionResponse,
-    CheckoutStatusResponse,
-    CheckoutSessionRequest,
-)
 
 from products_data import PRODUCTS, COSMETIC_DISCLAIMER
 
@@ -44,10 +39,13 @@ client = AsyncIOMotorClient(MONGO_URL)
 db = client[DB_NAME]
 
 STRIPE_API_KEY = os.environ.get("STRIPE_API_KEY", "")
+STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET", "")
 RESEND_API_KEY = os.environ.get("RESEND_API_KEY", "")
 SENDER_EMAIL = os.environ.get("SENDER_EMAIL", "onboarding@resend.dev")
 SUPPORT_EMAIL = os.environ.get("SUPPORT_EMAIL", "support@p-nice.com")
 STATEMENT_DESCRIPTOR = os.environ.get("STORE_STATEMENT_DESCRIPTOR", "P-Nice")
+
+stripe.api_key = STRIPE_API_KEY
 
 # Fast lookup of products by id (server is source of truth for price)
 PRODUCT_INDEX: Dict[str, dict] = {p["id"]: p for p in PRODUCTS}
@@ -162,20 +160,44 @@ def _compute_order(items: List[CartItemIn]):
     return line_items, subtotal, shipping, total
 
 
+def _to_cents(amount: float) -> int:
+    return int(round(amount * 100))
+
+
 @api.post("/checkout/session")
 async def create_checkout_session(req: CheckoutRequest, request: Request):
     if not req.items:
         raise HTTPException(status_code=400, detail="Cart is empty")
+    if not STRIPE_API_KEY:
+        raise HTTPException(status_code=503, detail="Payments are not configured.")
 
     line_items, subtotal, shipping, total = _compute_order(req.items)
-
-    host_url = str(request.base_url)
-    webhook_url = f"{host_url}api/webhook/stripe"
-    stripe_checkout = StripeCheckout(api_key=STRIPE_API_KEY, webhook_url=webhook_url)
 
     origin = req.origin_url.rstrip("/")
     success_url = f"{origin}/checkout/success?session_id={{CHECKOUT_SESSION_ID}}"
     cancel_url = f"{origin}/cart"
+
+    stripe_line_items = [
+        {
+            "price_data": {
+                "currency": "usd",
+                "product_data": {"name": f"{li['name']} ({li['variant']})"},
+                "unit_amount": _to_cents(li["unit_price"]),
+            },
+            "quantity": li["quantity"],
+        }
+        for li in line_items
+    ]
+
+    shipping_options = [
+        {
+            "shipping_rate_data": {
+                "type": "fixed_amount",
+                "fixed_amount": {"amount": _to_cents(shipping), "currency": "usd"},
+                "display_name": "Free shipping" if shipping == 0 else "Standard shipping",
+            }
+        }
+    ]
 
     metadata = {
         "source": "pnice_web",
@@ -186,20 +208,24 @@ async def create_checkout_session(req: CheckoutRequest, request: Request):
     if req.email:
         metadata["email"] = req.email
 
-    checkout_request = CheckoutSessionRequest(
-        amount=float(total),
-        currency="usd",
-        success_url=success_url,
-        cancel_url=cancel_url,
-        metadata=metadata,
-    )
-    session: CheckoutSessionResponse = await stripe_checkout.create_checkout_session(
-        checkout_request
-    )
+    try:
+        session = await asyncio.to_thread(
+            stripe.checkout.Session.create,
+            mode="payment",
+            line_items=stripe_line_items,
+            shipping_options=shipping_options,
+            success_url=success_url,
+            cancel_url=cancel_url,
+            metadata=metadata,
+            customer_email=req.email or None,
+        )
+    except stripe.error.StripeError as exc:  # noqa: BLE001
+        logger.error("Stripe session creation failed: %s", exc)
+        raise HTTPException(status_code=502, detail="Could not start checkout. Please try again.")
 
     # MANDATORY: record transaction BEFORE returning, status pending
     txn = {
-        "session_id": session.session_id,
+        "session_id": session.id,
         "amount": total,
         "subtotal": subtotal,
         "shipping": shipping,
@@ -215,7 +241,7 @@ async def create_checkout_session(req: CheckoutRequest, request: Request):
     }
     await db.payment_transactions.insert_one(txn)
 
-    return {"url": session.url, "session_id": session.session_id}
+    return {"url": session.url, "session_id": session.id}
 
 
 @api.get("/checkout/status/{session_id}")
@@ -228,12 +254,15 @@ async def checkout_status(session_id: str):
     if txn.get("payment_status") == "paid":
         return _status_payload(txn)
 
-    stripe_checkout = StripeCheckout(api_key=STRIPE_API_KEY, webhook_url="")
-    status: CheckoutStatusResponse = await stripe_checkout.get_checkout_status(session_id)
+    try:
+        session = await asyncio.to_thread(stripe.checkout.Session.retrieve, session_id)
+    except stripe.error.StripeError as exc:  # noqa: BLE001
+        logger.error("Stripe status retrieve failed: %s", exc)
+        raise HTTPException(status_code=502, detail="Could not check payment status.")
 
     update = {
-        "payment_status": status.payment_status,
-        "status": status.status,
+        "payment_status": session.get("payment_status"),
+        "status": session.get("status"),
         "updated_at": now_iso(),
     }
     await db.payment_transactions.update_one(
@@ -241,7 +270,7 @@ async def checkout_status(session_id: str):
     )
     txn.update(update)
 
-    if status.payment_status == "paid":
+    if session.get("payment_status") == "paid":
         await _finalize_order(session_id)
         txn = await db.payment_transactions.find_one({"session_id": session_id}, {"_id": 0})
 
@@ -347,19 +376,24 @@ async def _send_order_email(to_email: str, order_number: str, order: dict):
 async def stripe_webhook(request: Request):
     body = await request.body()
     signature = request.headers.get("Stripe-Signature")
-    stripe_checkout = StripeCheckout(api_key=STRIPE_API_KEY, webhook_url="")
+    if not STRIPE_WEBHOOK_SECRET:
+        logger.error("STRIPE_WEBHOOK_SECRET not set — rejecting webhook")
+        raise HTTPException(status_code=503, detail="Webhook not configured")
     try:
-        result = await stripe_checkout.handle_webhook(body, signature)
-    except Exception as exc:  # noqa: BLE001
+        event = stripe.Webhook.construct_event(body, signature, STRIPE_WEBHOOK_SECRET)
+    except (ValueError, stripe.error.SignatureVerificationError) as exc:
         logger.error("Webhook verification failed: %s", exc)
         raise HTTPException(status_code=400, detail="Invalid webhook signature")
 
-    if result.session_id and result.payment_status == "paid":
-        await db.payment_transactions.update_one(
-            {"session_id": result.session_id},
-            {"$set": {"payment_status": "paid", "status": "complete", "updated_at": now_iso()}},
-        )
-        await _finalize_order(result.session_id)
+    if event["type"] in ("checkout.session.completed", "checkout.session.async_payment_succeeded"):
+        session = event["data"]["object"]
+        session_id = session.get("id")
+        if session_id and session.get("payment_status") == "paid":
+            await db.payment_transactions.update_one(
+                {"session_id": session_id},
+                {"$set": {"payment_status": "paid", "status": "complete", "updated_at": now_iso()}},
+            )
+            await _finalize_order(session_id)
 
     return {"received": True}
 
