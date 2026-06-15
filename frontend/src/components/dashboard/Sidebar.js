@@ -30,9 +30,9 @@ const CHANNELS = [
 ];
 
 const APPS = [
-  { key: "shopee", label: "Shopee", color: "#EE4D2D" },
-  { key: "tiktok", label: "Tiktok", color: "#111827" },
-  { key: "tokopedia", label: "Tokopedia", color: "#22C55E" },
+  { key: "shopify", label: "Shopify", color: "#95BF47" },
+  { key: "tiktok", label: "TikTok", color: "#111827" },
+  { key: "tokopedia", label: "Tokopedia", color: "#42B549" },
 ];
 
 function NavItem({ item, active, badge, onSelect }) {

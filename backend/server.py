@@ -482,6 +482,22 @@ def _pct(curr: float, prev: float) -> float:
     return 100.0 if curr > 0 else 0.0
 
 
+def _mask_email(email: Optional[str]) -> str:
+    """Privacy-preserving display of a customer email (dashboard is unauthenticated)."""
+    if not email or "@" not in email:
+        return "—"
+    name, _, domain = email.partition("@")
+    head = name[0] if name else ""
+    return f"{head}{'•' * max(2, len(name) - 1)}@{domain}"
+
+
+def _item_summary(line_items) -> str:
+    if not line_items:
+        return "—"
+    first = line_items[0].get("name", "Item")
+    return f"{first} +{len(line_items) - 1} more" if len(line_items) > 1 else first
+
+
 @api.get("/dashboard/summary")
 async def dashboard_summary(range: str = "7d"):
     """Aggregated metrics for the admin dashboard. `range` drives the sales chart."""
@@ -543,6 +559,8 @@ async def dashboard_summary(range: str = "7d"):
                 "id": p["id"],
                 "name": p["name"],
                 "slug": p["slug"],
+                "category": p.get("category", ""),
+                "size": p.get("size", ""),
                 "price": p["price"],
                 "image": (p.get("images") or [None])[0],
                 "units_sold": units_by_product.get(p["id"], 0),
@@ -575,13 +593,16 @@ async def dashboard_summary(range: str = "7d"):
             "status": o.get("status", "paid"),
         })
 
+    all_time_sales = round(sum(float(o.get("amount", 0) or 0) for o in orders), 2)
+    completed = len(orders)
+
     return {
         "owner": os.environ.get("STORE_OWNER", "P-Nice"),
         "currency": "usd",
         "range": rng,
         "stats": {
             "total_products": {"value": len(PRODUCTS), "delta_pct": 0.0},
-            "completed_orders": {"value": len(orders), "delta_pct": _pct(curr_orders, prev_orders)},
+            "completed_orders": {"value": completed, "delta_pct": _pct(curr_orders, prev_orders)},
             "canceled_orders": {"value": canceled_orders, "delta_pct": 0.0},
             "top_products": {"value": sum(units_by_product.values()), "delta_pct": _pct(curr_total, prev_total)},
         },
@@ -591,9 +612,123 @@ async def dashboard_summary(range: str = "7d"):
             "delta_pct": _pct(curr_total, prev_total),
             "series": series,
         },
+        "analytics": {
+            "revenue_total": all_time_sales,
+            "avg_order_value": round(all_time_sales / completed, 2) if completed else 0.0,
+            "status_breakdown": {
+                "completed": completed,
+                "pending": pending_orders,
+                "canceled": canceled_orders,
+            },
+        },
         "pending_orders": pending_orders,
         "transactions": transactions,
         "top_products_list": top_products_list,
+    }
+
+
+@api.get("/dashboard/orders")
+async def dashboard_orders():
+    """All orders (paid) plus open/pending checkouts, newest first."""
+    orders = await db.orders.find({}, {"_id": 0}).to_list(20000)
+    txns = await db.payment_transactions.find({}, {"_id": 0}).to_list(20000)
+
+    paid_rows = []
+    for o in sorted(orders, key=lambda o: _to_dt(o.get("created_at")) or datetime.min.replace(tzinfo=timezone.utc), reverse=True):
+        d = _to_dt(o.get("created_at"))
+        paid_rows.append({
+            "order_id": o.get("order_number", "—"),
+            "item": _item_summary(o.get("line_items", [])),
+            "items_count": sum(int(li.get("quantity", 0) or 0) for li in o.get("line_items", [])),
+            "customer": _mask_email(o.get("email")),
+            "date": d.strftime("%d/%m/%Y") if d else "—",
+            "amount": round(float(o.get("amount", 0) or 0), 2),
+            "status": o.get("status", "paid"),
+            "platform": "P-Nice Store",
+        })
+
+    pending_rows = []
+    for t in sorted(txns, key=lambda t: _to_dt(t.get("created_at")) or datetime.min.replace(tzinfo=timezone.utc), reverse=True):
+        if t.get("payment_status") == "paid":
+            continue
+        d = _to_dt(t.get("created_at"))
+        pending_rows.append({
+            "order_id": (t.get("session_id", "")[:14] + "…") if t.get("session_id") else "—",
+            "item": _item_summary(t.get("line_items", [])),
+            "customer": _mask_email(t.get("email")),
+            "date": d.strftime("%d/%m/%Y") if d else "—",
+            "amount": round(float(t.get("amount", 0) or 0), 2),
+            "status": t.get("payment_status") or "pending",
+        })
+
+    return {
+        "orders": paid_rows,
+        "pending": pending_rows,
+        "counts": {"paid": len(paid_rows), "pending": len(pending_rows)},
+    }
+
+
+@api.get("/dashboard/customers")
+async def dashboard_customers():
+    """Customers aggregated from paid orders, plus newsletter lead count."""
+    orders = await db.orders.find({}, {"_id": 0}).to_list(20000)
+    agg: Dict[str, dict] = {}
+    for o in orders:
+        email = o.get("email") or ""
+        if not email:
+            continue
+        d = _to_dt(o.get("created_at"))
+        row = agg.setdefault(email, {"orders": 0, "total_spent": 0.0, "last_order": None})
+        row["orders"] += 1
+        row["total_spent"] += float(o.get("amount", 0) or 0)
+        if d and (row["last_order"] is None or d > row["last_order"]):
+            row["last_order"] = d
+
+    customers = sorted(
+        (
+            {
+                "customer": _mask_email(email),
+                "orders": v["orders"],
+                "total_spent": round(v["total_spent"], 2),
+                "last_order": v["last_order"].strftime("%d/%m/%Y") if v["last_order"] else "—",
+            }
+            for email, v in agg.items()
+        ),
+        key=lambda x: x["total_spent"],
+        reverse=True,
+    )
+    subscriber_count = await db.newsletter.count_documents({})
+    return {"customers": customers, "total": len(customers), "subscriber_leads": subscriber_count}
+
+
+@api.get("/dashboard/marketing")
+async def dashboard_marketing():
+    """Newsletter subscribers and contact-form messages for marketing."""
+    subs = await db.newsletter.find({}, {"_id": 0}).to_list(20000)
+    msgs = await db.contact_messages.find({}, {"_id": 0}).to_list(20000)
+
+    def _date(doc, key="created_at"):
+        d = _to_dt(doc.get(key) or doc.get("updated_at"))
+        return d.strftime("%d/%m/%Y") if d else "—"
+
+    subscribers = [
+        {"customer": _mask_email(s.get("email")), "consent": bool(s.get("consent")), "date": _date(s)}
+        for s in subs
+    ]
+    messages = [
+        {
+            "name": m.get("name", "—"),
+            "customer": _mask_email(m.get("email")),
+            "message": (m.get("message", "")[:120] + ("…" if len(m.get("message", "")) > 120 else "")),
+            "date": _date(m),
+        }
+        for m in sorted(msgs, key=lambda m: _to_dt(m.get("created_at")) or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
+    ]
+    return {
+        "subscribers": subscribers,
+        "subscriber_count": len(subscribers),
+        "messages": messages,
+        "message_count": len(messages),
     }
 
 
