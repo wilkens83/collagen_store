@@ -11,7 +11,8 @@ data is ever collected or stored — Stripe handles all payment data.
 import os
 import asyncio
 import logging
-from datetime import datetime, timezone
+from collections import defaultdict
+from datetime import datetime, timezone, timedelta
 from typing import Optional, List, Dict, Annotated
 
 import stripe
@@ -423,6 +424,177 @@ async def subscribe_newsletter(payload: NewsletterIn):
         upsert=True,
     )
     return {"success": True, "message": "Welcome to the ritual — please check your inbox."}
+
+
+# ---------------------------------------------------------------------------
+# Admin dashboard (aggregated store metrics)
+# ---------------------------------------------------------------------------
+_RANGE_CONFIG = {
+    "1d": ("hour", 24),
+    "7d": ("day", 7),
+    "30d": ("day", 30),
+    "16m": ("month", 16),
+    "max": ("month", 12),
+}
+
+
+def _to_dt(value) -> Optional[datetime]:
+    """Coerce a stored created_at (ISO string or datetime) to an aware datetime."""
+    if isinstance(value, datetime):
+        return value if value.tzinfo else value.replace(tzinfo=timezone.utc)
+    if isinstance(value, str):
+        try:
+            dt = datetime.fromisoformat(value.replace("Z", "+00:00"))
+            return dt if dt.tzinfo else dt.replace(tzinfo=timezone.utc)
+        except ValueError:
+            return None
+    return None
+
+
+def _build_buckets(now: datetime, unit: str, count: int):
+    """Return ordered (label, start, end) windows ending at `now`."""
+    edges = []
+    if unit == "hour":
+        base = now.replace(minute=0, second=0, microsecond=0)
+        for i in range(count - 1, -1, -1):
+            s = base - timedelta(hours=i)
+            edges.append((s.strftime("%H:00"), s, s + timedelta(hours=1)))
+    elif unit == "day":
+        base = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        for i in range(count - 1, -1, -1):
+            s = base - timedelta(days=i)
+            edges.append((s.strftime("%b %d"), s, s + timedelta(days=1)))
+    else:  # month
+        for i in range(count - 1, -1, -1):
+            mm, yy = now.month - i, now.year
+            while mm <= 0:
+                mm += 12
+                yy -= 1
+            s = datetime(yy, mm, 1, tzinfo=timezone.utc)
+            nm, ny = (mm + 1, yy) if mm < 12 else (1, yy + 1)
+            edges.append((s.strftime("%b"), s, datetime(ny, nm, 1, tzinfo=timezone.utc)))
+    return edges
+
+
+def _pct(curr: float, prev: float) -> float:
+    if prev > 0:
+        return round((curr - prev) / prev * 100, 1)
+    return 100.0 if curr > 0 else 0.0
+
+
+@api.get("/dashboard/summary")
+async def dashboard_summary(range: str = "7d"):
+    """Aggregated metrics for the admin dashboard. `range` drives the sales chart."""
+    rng = range if range in _RANGE_CONFIG else "7d"
+    unit, count = _RANGE_CONFIG[rng]
+    now = datetime.now(timezone.utc)
+
+    orders = await db.orders.find({}, {"_id": 0}).to_list(length=20000)
+    txns = await db.payment_transactions.find({}, {"_id": 0}).to_list(length=20000)
+
+    # Pre-parse order datetimes once.
+    dated_orders = [(o, _to_dt(o.get("created_at"))) for o in orders]
+
+    # Units / revenue per product.
+    units_by_product: Dict[str, int] = defaultdict(int)
+    revenue_by_product: Dict[str, float] = defaultdict(float)
+    for o in orders:
+        for li in o.get("line_items", []):
+            pid = li.get("product_id")
+            units_by_product[pid] += int(li.get("quantity", 0) or 0)
+            revenue_by_product[pid] += float(li.get("line_total", 0) or 0)
+
+    canceled_orders = sum(
+        1 for t in txns
+        if t.get("payment_status") in ("expired", "canceled") or t.get("status") == "canceled"
+    )
+    pending_orders = sum(
+        1 for t in txns
+        if t.get("payment_status") != "paid" and t.get("status") != "canceled"
+    )
+
+    # Sales series for the selected window + delta vs the preceding window.
+    edges = _build_buckets(now, unit, count)
+    window_start, window_end = edges[0][1], edges[-1][2]
+    prev_start = window_start - (window_end - window_start)
+
+    series = [{"label": label, "value": 0.0} for (label, _, _) in edges]
+    curr_total = prev_total = 0.0
+    curr_orders = prev_orders = 0
+    for o, dt in dated_orders:
+        if dt is None:
+            continue
+        amt = float(o.get("amount", 0) or 0)
+        if window_start <= dt < window_end:
+            curr_total += amt
+            curr_orders += 1
+            for idx, (_, s, e) in enumerate(edges):
+                if s <= dt < e:
+                    series[idx]["value"] = round(series[idx]["value"] + amt, 2)
+                    break
+        elif prev_start <= dt < window_start:
+            prev_total += amt
+            prev_orders += 1
+
+    # Top products: real catalog enriched with sales, best sellers first.
+    top_products_list = sorted(
+        (
+            {
+                "id": p["id"],
+                "name": p["name"],
+                "slug": p["slug"],
+                "price": p["price"],
+                "image": (p.get("images") or [None])[0],
+                "units_sold": units_by_product.get(p["id"], 0),
+                "revenue": round(revenue_by_product.get(p["id"], 0.0), 2),
+            }
+            for p in PRODUCTS
+        ),
+        key=lambda x: (x["units_sold"], x["revenue"]),
+        reverse=True,
+    )
+
+    # Most recent orders for the transactions table.
+    recent = sorted(
+        dated_orders,
+        key=lambda pair: pair[1] or datetime.min.replace(tzinfo=timezone.utc),
+        reverse=True,
+    )[:6]
+    transactions = []
+    for o, dt in recent:
+        lis = o.get("line_items", [])
+        item = lis[0].get("name") if lis else "—"
+        if len(lis) > 1:
+            item = f"{item} +{len(lis) - 1} more"
+        transactions.append({
+            "order_id": o.get("order_number", "—"),
+            "item": item,
+            "date": dt.strftime("%d/%m/%Y") if dt else "—",
+            "price": round(float(o.get("amount", 0) or 0), 2),
+            "platform": "P-Nice Store",
+            "status": o.get("status", "paid"),
+        })
+
+    return {
+        "owner": os.environ.get("STORE_OWNER", "P-Nice"),
+        "currency": "usd",
+        "range": rng,
+        "stats": {
+            "total_products": {"value": len(PRODUCTS), "delta_pct": 0.0},
+            "completed_orders": {"value": len(orders), "delta_pct": _pct(curr_orders, prev_orders)},
+            "canceled_orders": {"value": canceled_orders, "delta_pct": 0.0},
+            "top_products": {"value": sum(units_by_product.values()), "delta_pct": _pct(curr_total, prev_total)},
+        },
+        "sales": {
+            "total": round(curr_total, 2),
+            "delta_amount": round(curr_total - prev_total, 2),
+            "delta_pct": _pct(curr_total, prev_total),
+            "series": series,
+        },
+        "pending_orders": pending_orders,
+        "transactions": transactions,
+        "top_products_list": top_products_list,
+    }
 
 
 # ---------------------------------------------------------------------------
