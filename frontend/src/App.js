@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 
 import { CartProvider } from "./context/CartContext";
@@ -19,6 +19,21 @@ import Journal from "./pages/Journal";
 import Contact from "./pages/Contact";
 import LegalPage from "./pages/LegalPage";
 import NotFound from "./pages/NotFound";
+import Dashboard from "./pages/Dashboard";
+
+// Storefront chrome (header/footer/cart). The dashboard renders its own layout.
+function StoreLayout() {
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <CartDrawer />
+      <main className="flex-1">
+        <Outlet />
+      </main>
+      <Footer />
+    </div>
+  );
+}
 
 function App() {
   return (
@@ -26,29 +41,25 @@ function App() {
       <CartProvider>
         <BrowserRouter>
           <ScrollToTop />
-          <div className="min-h-screen flex flex-col">
-            <Header />
-            <CartDrawer />
-            <main className="flex-1">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/shop" element={<Shop />} />
-                <Route path="/product/:slug" element={<ProductDetail />} />
-                <Route path="/cart" element={<CartPage />} />
-                <Route path="/checkout" element={<Checkout />} />
-                <Route path="/checkout/success" element={<CheckoutSuccess />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/journal" element={<Journal />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/terms" element={<LegalPage docKey="terms" />} />
-                <Route path="/privacy" element={<LegalPage docKey="privacy" />} />
-                <Route path="/refund-policy" element={<LegalPage docKey="refund-policy" />} />
-                <Route path="/shipping-policy" element={<LegalPage docKey="shipping-policy" />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </main>
-            <Footer />
-          </div>
+          <Routes>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route element={<StoreLayout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/shop" element={<Shop />} />
+              <Route path="/product/:slug" element={<ProductDetail />} />
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/checkout/success" element={<CheckoutSuccess />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/journal" element={<Journal />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/terms" element={<LegalPage docKey="terms" />} />
+              <Route path="/privacy" element={<LegalPage docKey="privacy" />} />
+              <Route path="/refund-policy" element={<LegalPage docKey="refund-policy" />} />
+              <Route path="/shipping-policy" element={<LegalPage docKey="shipping-policy" />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
+          </Routes>
         </BrowserRouter>
       </CartProvider>
     </HelmetProvider>
